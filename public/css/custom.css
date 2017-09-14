@@ -1,0 +1,228 @@
+.no-padding{
+	
+	padding-right: 0 !important;
+	padding-left: 0 !important;
+
+}
+
+.margin-top{
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.calendar table th, .calendar td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+.calendar th, .calendar td {
+    padding: 5px;
+    text-align: left;
+}
+
+.calendar-line {
+	border:1px solid gray;
+	width:28px;
+	height:28px;
+	position:relative;
+}
+
+.calendar-line:after{
+	content:"";
+	position:absolute;
+	border-top:1px solid red;
+  	width:40px;
+  	transform: rotate(45deg);
+  	transform-origin: 0% 0%;
+}
+
+.section-header {
+    padding: 20px;
+    background: #fff;
+    margin-top: -20px;
+    min-height: 130px;
+    margin-bottom: 20px;
+
+
+}
+
+div.metricContainer {
+    float: left;
+    width: 30%;
+    margin: 2% 2% 0 0;
+    background: #ededed;
+    padding: 10px;
+}
+.metricContainer h4 {
+    font-size: 50px;
+}
+
+.circular_small {
+    width: 50px;
+    height: 50px;
+    border-radius: 150px;
+    -webkit-border-radius: 150px;
+    -moz-border-radius: 150px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+    -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+    -moz-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+}
+
+
+.widget-calendar {
+ padding:0
+}
+.widget-calendar .cal-container {
+ width:100%;
+ display:table
+}
+.widget-calendar .cal-container .cal-notes {
+ display:table-cell;
+ width:40%;
+ background-color:#94c12e;
+ padding:25px
+}
+.widget-calendar .cal-container .cal-notes span {
+ display:block;
+ color:#fff
+}
+.widget-calendar .cal-container .cal-notes span.day {
+ font-size:25px;
+ font-weight:300
+}
+.widget-calendar .cal-container .cal-notes span.date {
+ font-size:15px;
+ font-weight:300;
+ color:#fbd6d6
+}
+.widget-calendar .cal-container .cal-notes span.title {
+ font-size:14px;
+ border-bottom:1px solid #fff;
+ margin-top:35px;
+ padding-bottom:3px
+}
+.widget-calendar .cal-container .cal-notes span.title .icon {
+ float:right;
+ font-size:19px;
+ line-height:22px;
+ cursor:pointer
+}
+.widget-calendar .cal-container .cal-notes ul {
+ padding:20px 0 0;
+ list-style:none
+}
+.widget-calendar .cal-container .cal-notes ul li {
+ padding-bottom:10px;
+ font-size:12px
+}
+.widget-calendar .cal-container .cal-notes ul li span {
+ display:inline-block
+}
+.widget-calendar .cal-container .cal-notes ul li span.hour {
+ float:right
+}
+.widget-calendar .cal-container .cal-notes ul li:last-child {
+ padding-bottom:0
+}
+.widget-calendar .cal-container .cal-calendar {
+ display:table-cell;
+ padding:25px
+}
+.widget-calendar .cal-container .cal-calendar .ui-datepicker {
+ position:relative;
+ margin:20px 0
+}
+.widget-calendar .cal-container .cal-calendar .ui-datepicker .ui-datepicker-header {
+ border-bottom:1px solid rgba(255, 255, 255, .6);
+ padding-bottom:5px;
+ margin-bottom:10px
+}
+.widget-calendar .cal-container .cal-calendar .ui-datepicker .ui-datepicker-header .ui-datepicker-title {
+ cursor:default;
+ line-height:1.8em;
+ margin:0 2.3em;
+ text-align:center;
+ font-weight:600;
+ font-size:14px
+}
+.widget-calendar .cal-container .cal-calendar .ui-datepicker .ui-datepicker-header .ui-datepicker-next,.widget-calendar .cal-container .cal-calendar .ui-datepicker .ui-datepicker-header .ui-datepicker-prev {
+ height:1.8em;
+ position:absolute;
+ top:-5px;
+ width:1.8em;
+ color:#555;
+ font-size:28px
+}
+.widget-calendar .cal-container .cal-calendar .ui-datepicker .ui-datepicker-header .ui-datepicker-next span,.widget-calendar .cal-container .cal-calendar .ui-datepicker .ui-datepicker-header .ui-datepicker-prev span {
+ overflow:hidden;
+ display:block;
+ text-indent:-99999px
+}
+.widget-calendar .cal-container .cal-calendar .ui-datepicker .ui-datepicker-header .ui-datepicker-next span:after,.widget-calendar .cal-container .cal-calendar .ui-datepicker .ui-datepicker-header .ui-datepicker-prev span:after {
+ cursor:pointer;
+ content:"\e686";
+ font-family:'Stroke 7';
+ display:block;
+ position:absolute;
+ width:16px;
+ height:16px;
+ top:0;
+ text-indent:0
+}
+.widget-calendar .cal-container .cal-calendar .ui-datepicker .ui-datepicker-header .ui-datepicker-prev {
+ left:2px
+}
+.widget-calendar .cal-container .cal-calendar .ui-datepicker .ui-datepicker-header .ui-datepicker-next {
+ right:2px
+}
+.widget-calendar .cal-container .cal-calendar .ui-datepicker .ui-datepicker-header .ui-datepicker-next span:after {
+ content:"\e684";
+ right:14px
+}
+.widget-calendar .cal-container .cal-calendar .ui-datepicker table.ui-datepicker-calendar {
+ width:100%
+}
+.widget-calendar .cal-container .cal-calendar .ui-datepicker table.ui-datepicker-calendar th {
+ border:0;
+ padding:3px;
+ text-align:center;
+ font-weight:400;
+ color:#555
+}
+.widget-calendar .cal-container .cal-calendar .ui-datepicker table.ui-datepicker-calendar th span {
+ font-size:14px
+}
+.widget-calendar .cal-container .cal-calendar .ui-datepicker table.ui-datepicker-calendar tr td {
+ border:0;
+ padding:3px;
+ text-align:center
+}
+.widget-calendar .cal-container .cal-calendar .ui-datepicker table.ui-datepicker-calendar tr td a {
+ display:inline-block;
+ padding:.2em;
+ text-align:center;
+ text-decoration:none;
+ color:#888;
+ width:25px;
+ height:25px;
+ line-height:20px;
+ font-size:12px
+}
+.widget-calendar .cal-container .cal-calendar .ui-datepicker table.ui-datepicker-calendar tr td a.ui-state-active,.widget-calendar .cal-container .cal-calendar .ui-datepicker table.ui-datepicker-calendar tr td a.ui-state-highlight {
+ background-color:#e6e6e6;
+ border-radius:50%
+}
+.widget-calendar .cal-container .cal-calendar .ui-datepicker table.ui-datepicker-calendar tr td a.ui-state-highlight {
+ background-color:#94c12e;
+ color:#fff
+}
+@media (max-width: 767px) {
+ .widget-calendar .cal-container,.widget-calendar .cal-container .cal-calendar,.widget-calendar .cal-container .cal-notes {
+  display:block
+ }
+ .widget-calendar .cal-container .cal-notes {
+  width:100%
+ }
+ .widget-calendar .cal-container .cal-calendar .ui-datepicker {
+  margin:10px 0
+ }
+}
