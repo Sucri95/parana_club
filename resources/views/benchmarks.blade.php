@@ -34,8 +34,23 @@
                         @endif
                     </div>
 
+                    <div class="col-md-12 form-group{{ $errors->has('description') ? ' has-error' : '' }}">
+                        <label for="item" >Descripción </label>
+                            @if ( ! empty($benchmarks['description']))
+                                <input id="description" type="text" class="form-control" name="description" value="{{ $benchmarks['description'] }}">
+                            @else
+                                <input id="description" type="text" class="form-control" name="description" value="{{ old('description') }}">
+                            @endif
+
+                        @if ($errors->has('description'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('description') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+
                     <div class="form-group col-md-12">
-                        <label for="status">Estatus</label>
+                        <label for="status">Estado</label>
 
                             @if ( ! empty($benchmarks['status']))
                             <select id="status" class="selectpicker form-control" name="status">

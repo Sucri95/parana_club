@@ -12,8 +12,14 @@ use App\TasksByResponsable;
 use App\Product;
 use App\CashDeposit;
 use App\Classroom;
+use App\ClassDaySchedule;
 use App\Reservation;
 use App\CashTransaction;
+use App\Plans;
+use App\PlanByUser;
+use App\ActivityByTutor;
+use App\Classes;
+use App\PaidTutors;
 use DB;
 use Auth;
 use View;
@@ -490,4 +496,93 @@ class ReceptionController extends Controller
         return $reserve;
 
     }
+
+    /*Registrar un plan*/
+    /*Route: site/create_plan*/
+
+    public function createPlan(Request $request)
+    {
+        $plan = new Plans;
+        $plan->title = $request->title;
+        $plan->description = $request->description;
+        $plan->amount = $request->amount;
+        $plan->status = $request->status;
+        $plan->save();
+
+        return $plan;
+    }
+
+    /*Listar planes*/
+    /*Route: site/list_plans*/
+
+    public function listPlan()
+    {
+        $plan = Plans::all();
+
+        return $plan;
+    }
+
+    /*Comprar un plan*/
+    /*Route: site/buy_plans*/
+    public function buyPlans(Request $request)
+    {
+        $cash_transactions = new CashTransaction;
+        $cash_transactions->responsable_user_id = $request->responsable_user_id;
+        $cash_transactions->client_user_id = $request->client_user_id;
+        $cash_transactions->type_cash_transactions_id = $request->type_cash_transactions_id;
+        $cash_transactions->amount = $request->amount;
+        $cash_transactions->meta = 'Plan';
+        $cash_transactions->meta_id = $request->plan_id;
+        $cash_transactions->description = $request->description;        
+        $cash_transactions->status = 'Activo';
+        $cash_transactions->save();
+
+        
+
+        return $cash_transactions;
+    }
+
+    /*Pago de profesores por clases*/
+    /*Route: site/tutor_payments_by_classes */
+
+    public function tutorPaymentsByClasses(Request $request)
+    {
+
+        $response = array();
+        $user_id = $request->user_id;
+        $class_id = $request->class_id;
+        $activity_id = $request->activity_id;
+
+
+        $activity = ActivityByTutor::where('user_id', $user_id)->where('activity_id', $activity_id)->first();
+        $classes = ClassDaySchedule::where('class_id', $class_id)->first();
+
+        $amount_to_pay = ($activity->percentage_gain * $classes->value) / 100;
+
+        $payment = new PaidTutors;
+        $payment->tutor_user_id = $user_id;
+        $payment->responsable_user_id = $request->responsable_user_id;
+        $payment->amount = $amount_to_pay; 
+        $payment->status = 'Activo';
+        $payment->save();
+
+        $response['payment'] = $payment;
+
+        $cash_transactions = new CashTransaction;
+        $cash_transactions->responsable_user_id = $request->responsable_user_id;
+        $cash_transactions->client_user_id = $request->user_id;
+        $cash_transactions->type_cash_transactions_id = $request->type_cash_transactions_id; //2
+        $cash_transactions->amount = $payment->amount;
+        $cash_transactions->meta = 'Pago a profesor';
+        $cash_transactions->meta_id = $payment->id;
+        $cash_transactions->description = $request->description;        
+        $cash_transactions->status = 'Activo';
+        $cash_transactions->save();
+
+        $response['cash_transactions'] = $cash_transactions;        
+
+        return $response;
+    }
+
+
  }

@@ -14,7 +14,8 @@
                         <thead>
                             <tr>
                                 <th>Item</th>
-                                <th>Estatus</th>
+                                <th>Descripción</th>
+                                <th>Estado</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -22,6 +23,7 @@
                             @foreach($benchmarks as $item)
                             <tr>
                                 <th> {{ $item->item }}</th>
+                                <th> {{ $item->description }}</th>
                                 <th> {{ $item->status }}</th>
                                 <th> 
                                     @if( $item->id )

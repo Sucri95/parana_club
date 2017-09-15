@@ -20,6 +20,7 @@
 
                     {{ csrf_field() }}
 
+
                     <div class="col-md-12 form-group{{ $errors->has('title') ? ' has-error' : '' }}">
                         <label for="title">Titulo</label>
                             @if ( ! empty($notifications['title']))

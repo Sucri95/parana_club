@@ -91,6 +91,8 @@ Route::resource('benchmarks', 'BenchmarksController');
 
 Route::get('notifications_user/{id}', 'NotificationsController@notificationsUsers');
 
+Route::post('transactions/close_day', 'CashTransactionsController@closeDay');
+
 
 // SERVICIOS PARA SITE RECEPCIÓN
 
@@ -118,6 +120,8 @@ Route::get('site/view_all_reservations', 'ReceptionController@viewAllReservation
 
 Route::get('site/view_reservations_by_id_field', 'ReceptionController@viewReservationsByIdField');
 
+Route::get('site/list_plans', 'ReceptionController@listPlan');
+
 Route::post('site/store_tasks_by_user', 'ReceptionController@storeTasksByUser');
 
 Route::post('site/remove_tasks_by_user', 'ReceptionController@removeTasksByUser');
@@ -136,9 +140,20 @@ Route::post('site/reserve_fields', 'ReceptionController@reserveFields');
 
 Route::post('site/cancel_reservation', 'ReceptionController@cancelReservation');
 
+Route::post('site/create_plan', 'ReceptionController@createPlan');
+
+Route::post('site/buy_plans', 'ReceptionController@buyPlans');
+
+Route::post('site/tutor_payments_by_classes', 'ReceptionController@tutorPaymentsByClasses');
+
 // SERVICIOS PARA APP
 
 Route::get('mobile/get_notifications_by_user', 'MobileController@getNotificationsByUser');
 
+Route::get('mobile/login_service', 'MobileController@loginService');
 
+Route::get('mobile/show_work_outs', 'MobileController@showWorkOuts');
 
+Route::get('mobile/show_benchmarks', 'MobileController@showBenchmarks');
+
+Route::get('mobile/show_activity_historial', 'MobileController@showActivityHistorial');

@@ -70,6 +70,7 @@ class BenchmarksController extends BaseController
 
         $benchmarks = new Benchmark;
         $benchmarks->item = $request->item;
+        $benchmarks->description = $request->description;
         $benchmarks->status = $request->status;
         $benchmarks->save();
 

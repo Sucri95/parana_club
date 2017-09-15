@@ -16,6 +16,7 @@ class CreateBenchmarksTable extends Migration
         Schema::create('benchmarks', function (Blueprint $table) {
             $table->increments('id');
             $table->string('item');
+            $table->string('description');
             $table->string('status');
             $table->timestamps();
         });
