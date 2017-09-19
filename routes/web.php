@@ -91,6 +91,8 @@ Route::resource('benchmarks', 'BenchmarksController');
 
 Route::get('notifications_user/{id}', 'NotificationsController@notificationsUsers');
 
+Route::post('saveNotificationsUsers/{id}', 'NotificationsController@saveNotificationsUsers');
+
 Route::post('transactions/close_day', 'CashTransactionsController@closeDay');
 
 
@@ -107,6 +109,10 @@ Route::get('site/get_employees', 'ReceptionController@getEmployees');
 Route::get('site/get_clients', 'ReceptionController@getClients');
 
 Route::get('site/get_clients_with_debt', 'ReceptionController@getClientsWithDebt');
+
+Route::get('site/search_clients_with_debt', 'ReceptionController@searchClientsWithDebt');
+
+Route::get('site/get_debts_by_clients', 'ReceptionController@getDebtsByClients');
 
 Route::get('site/find_user_by_id', 'ReceptionController@findUserById');
 
@@ -146,14 +152,26 @@ Route::post('site/buy_plans', 'ReceptionController@buyPlans');
 
 Route::post('site/tutor_payments_by_classes', 'ReceptionController@tutorPaymentsByClasses');
 
+Route::post('site/pay_debts', 'ReceptionController@payDebts');
+
 // SERVICIOS PARA APP
 
 Route::get('mobile/get_notifications_by_user', 'MobileController@getNotificationsByUser');
 
 Route::get('mobile/login_service', 'MobileController@loginService');
 
+Route::get('mobile/logout_service', 'MobileController@logoutService');
+
 Route::get('mobile/show_work_outs', 'MobileController@showWorkOuts');
 
 Route::get('mobile/show_benchmarks', 'MobileController@showBenchmarks');
 
 Route::get('mobile/show_activity_historial', 'MobileController@showActivityHistorial');
+
+Route::get('mobile/reset_password', 'MobileController@resetPassword');
+
+Route::post('mobile/send_link_reset_passw', 'MobileController@sendLinkResetPassw');
+
+Route::post('mobile/book_turns', 'MobileController@bookTurns');
+
+Route::post('mobile/cancel_turns', 'MobileController@cancelTurns');

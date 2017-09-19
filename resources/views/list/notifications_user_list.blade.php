@@ -43,7 +43,7 @@
 
                             </form>
 
-                            <form class="form-horizontal" role="form" method="POST" action="{{ url('/saveNotificacionesUsuarios/' .$id) }}">
+                            <form class="form-horizontal" role="form" method="POST" action="{{ url('/saveNotificationsUsers/' .$id) }}">
                             
 
                             {{ csrf_field() }}

@@ -226,3 +226,16 @@ div.metricContainer {
   margin:10px 0
  }
 }
+
+.text-center{
+  text-align: center;
+}
+.success{
+  color: #41e730;
+}
+.failed{
+  color: #e32828;
+}
+div.metricContainer{
+  height: 13em;
+}

@@ -196,6 +196,194 @@ class ReceptionController extends Controller
 
 	}
 
+    // BÚSQUEDA DE CLIENTES CON DEUDAS POR NOMBRE, APELLIDO, DNI O EMAIL
+    /*ROUTE -> site/search_clients_with_debt */
+    public function searchClientsWithDebt(){
+
+        if(empty($_GET['user'])){
+            return "No se encontraron resultados";
+        } else {
+
+            $value = $_GET['user'];
+
+            $response = array();
+            $count = 0;
+            $total = 0;
+
+            $users = User::where(function ($query) use ($value) {
+                $query->where('name', 'LIKE','%'. $value .'%')
+                      ->orWhere('last_name', 'LIKE','%' . $value .'%')
+                      ->orWhere('email', 'LIKE','%' . $value .'%')
+                      ->orWhere('document', 'LIKE', '%' . $value . '%');
+            })->get();
+
+            foreach ($users as $user) {
+
+                $sales_by_user = SalesByUser::with('sales')->with('user')->where('status', 'Activo')->where('user_id', $user->id)->groupBy('user_id')->get();
+                
+
+                foreach ($sales_by_user as $keyvalue) {
+
+                    $sales_detail = SalesDetail::with('products')->where('sales_id', $keyvalue->sales_id)->get();
+
+                    $response[$count]['usuario'] = $user->name.' ' .$user->last_name;
+                    $response[$count]['dni']  = $user->document;
+                    $response[$count]['email']= $user->email;
+
+                    $count++;
+                }
+
+                
+            }
+
+            return $response;
+
+        }
+
+    }
+    // BUSCAR UN CLIENTE CON DEUDA, CON TOTAL DE TODAS DEUDAS.
+    /*ROUTE -> site/get_debts_by_clients */
+    public function getDebtsByClients(){
+
+
+        if (empty($_GET['user'])) {
+            return "No se encontraron resultados";
+        }else{
+
+            $value = $_GET['user'];
+
+            $response = array();
+            $count = 0;
+            $total = 0;
+
+            $users = User::where(function ($query) use ($value) {
+                $query->where('name', 'LIKE','%'. $value .'%')
+                      ->orWhere('last_name', 'LIKE','%' . $value .'%')
+                      ->orWhere('email', 'LIKE','%' . $value .'%')
+                      ->orWhere('document', 'LIKE', '%' . $value . '%');
+            })->get();
+
+            foreach ($users as $user) {
+
+                $sales_by_user = SalesByUser::with('sales')->with('user')->where('status', 'Activo')->where('user_id', $user->id)->get();
+                
+
+                foreach ($sales_by_user as $keyvalue) {
+
+                    $sales_detail = SalesDetail::with('products')->where('sales_id', $keyvalue->sales_id)->get();
+
+                    $response[$count]['usuario'] = $user->name.' ' .$user->last_name;
+                    $response[$count]['documento']  = $user->document;
+                    
+                    foreach ($sales_detail as $value) {
+                        $response[$count]['fecha']    = date('Y-m-d', strtotime($value->created_at));
+                        $response[$count]['hora']     = date('H:m:s', strtotime($value->created_at));
+                        $response[$count]['id']       = $value->id;
+                        $response[$count]['nombre']   = $value->products->name;
+                        $response[$count]['costo']    = $value->sub_total;
+                        $response[$count]['cantidad'] = $value->quantity;
+                        $response[$count]['subtotal'] = $value->sub_total * $value->quantity;
+                        $total = $total + ($value->sub_total * $value->quantity);
+                    }
+
+                    $count++;
+                }
+
+                
+            }
+
+            $response['total'] = $total;
+
+            return $response;
+        }
+
+    }
+
+    // PAGAR DEUDAS
+    /*ROUTE -> site/pay_debts */
+    public function payDebts(Request $request){
+
+        $all = $request->all;
+        $user = User::findOrFail($request->user_id);
+        $amount = $request->amount;
+        $response = array();
+        $count = 0;
+        $total = 0;
+
+        if ($all == "true") {
+            
+            $sales_by_user = SalesByUser::with('sales')->with('user')->where('status', 'Activo')->where('user_id', $user->id)->get();
+
+            foreach ($sales_by_user as $keyvalue) {
+                $keyvalue->status = 'Pagado';
+                $keyvalue->save();
+            }
+            $cash_transactions = new CashTransaction;
+            $cash_transactions->responsable_user_id = $request->responsable_user_id;
+            $cash_transactions->client_user_id = $user->id;
+            $cash_transactions->type_cash_transactions_id = 2;
+            $cash_transactions->amount = $amount;
+            $cash_transactions->meta = 'Pago de deudas';
+            $cash_transactions->meta_id = $request->user_id;
+            $cash_transactions->description = $request->description;        
+            $cash_transactions->status = 'Activo';
+            $cash_transactions->save();
+
+            $response['user']  = $user->name.' ' .$user->last_name;
+            $response['DNI']   = $user->document;
+            $response['fecha'] = date('Y-m-d');
+            $response['hora']  = date('H:m:s');
+            $response['total'] = $amount;
+            $response['cash_transactions'] = $cash_transactions;
+
+            return $response;
+
+           
+
+        }else{
+
+            $debt = $request->debt_id;
+            $sales_by_user = SalesByUser::findOrFail($debt);
+            $sales_by_user->status = 'Pagado';
+            $sales_by_user->save();
+
+            $sales_detail = SalesDetail::with('products')->where('sales_id', $sales_by_user->sales_id)->get();
+
+            $response['user'] = $user->name.' ' .$user->last_name;
+            $response['DNI']  = $user->document;
+
+            foreach ($sales_detail as $value) {
+                $response['fecha']    = date('Y-m-d', strtotime($value->created_at));
+                $response['hora']     = date('H:m:s', strtotime($value->created_at));
+                $response['id']       = $value->id;
+                $response['nombre']   = $value->products->name;
+                $response['costo']    = $value->sub_total;
+                $response['cantidad'] = $value->quantity;
+                $response['subtotal'] = $value->sub_total * $value->quantity;
+                $total = $total + ($value->sub_total * $value->quantity);
+            }
+
+            $response['total'] = $total;
+
+            $cash_transactions = new CashTransaction;
+            $cash_transactions->responsable_user_id = $request->responsable_user_id;
+            $cash_transactions->client_user_id = $user->id;
+            $cash_transactions->type_cash_transactions_id = 2;
+            $cash_transactions->amount = $amount;
+            $cash_transactions->meta = 'Pago de deudas';
+            $cash_transactions->meta_id = $sales_by_user->id;
+            $cash_transactions->description = $request->description;        
+            $cash_transactions->status = 'Activo';
+            $cash_transactions->save();
+
+            $response['cash_transactions'] = $cash_transactions;
+
+            return $response;
+        }
+
+
+    }
+
 	//Store employees
 	/*ROUTE -> site/store_user */
 	function storeUsers(Request $request){
@@ -478,22 +666,39 @@ class ReceptionController extends Controller
 	
 	public function cancelReservation(Request $request)
     {
-
+        $response = array();
         $reserve = Reservation::findOrFail($request->id);
         $reserve->observation = $request->observation;
         $reserve->status = "Inactivo";
         $reserve->save();
 		
-		$date1 = date('Y-m-d');
-		$date2 = $reserve->date;
-        
         if ($request->observation == 'Lluvia') {
-        	//Retornar el dinero
+
+        	//Check if client is registered
+            $client = User::find($request->client_user_id);
+
+            $cash_transactions = new CashTransaction;
+            $cash_transactions->responsable_user_id = $request->responsable_user_id;
+            if(!empty($client)){
+                $cash_transactions->client_user_id = $request->client_user_id;
+            }
+            $cash_transactions->type_cash_transactions_id = 2;
+            $cash_transactions->amount = $reserve->amount;
+            $cash_transactions->meta = 'Cancelar reservación';
+            $cash_transactions->meta_id = $reserve->id;
+            $cash_transactions->description = "Se cancela por lluvias";
+            $cash_transactions->status = 'Activo';
+            $cash_transactions->save();
+
+            $response['reserve'] = $reserve;
+            $response['cash_transactions'] = $cash_transactions;
+
+            return $response;
+
         }else{
-        	//No retornar el dinero
+        	return $reserve;
         }
 
-        return $reserve;
 
     }
 

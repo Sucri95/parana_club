@@ -176,7 +176,7 @@ class CashTransactionsController extends Controller
             }
         }
 
-        $closingday->responsable_user_id = Auth::user()->id;
+        $closingday->responsable_user_id = $request->responsable_user_id;
         $closingday->amount_cash = $amount_cash;
         $closingday->amount_diff = $amount_diff;
         $closingday->amount_deposits = $amount_deposits;
@@ -185,7 +185,7 @@ class CashTransactionsController extends Controller
         $closingday->save();
 
         $cash_transactions = new CashTransaction;
-        $cash_transactions->responsable_user_id = Auth::user()->id;
+        $cash_transactions->responsable_user_id = $request->responsable_user_id;
         $cash_transactions->type_cash_transactions_id = "4";
         $cash_transactions->amount = $total;
         $cash_transactions->meta = "Cierre";
