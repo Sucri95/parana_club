@@ -19,6 +19,8 @@ class CreateAssistsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('responsable_user_id')->unsigned()->index();
             $table->foreign('responsable_user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('class_id')->unsigned()->index();
+            $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
             $table->timestamps();
         });
     }

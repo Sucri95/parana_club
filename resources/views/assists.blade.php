@@ -39,13 +39,32 @@
                             </span>
                         @endif
                     </div>
+
                     <div class="col-md-12 form-group">
                             
                             <label id="client_name" style="display: none"></label>
 
                             <input type="text" class="form-control" name="uid_user" id="uid_user" style="display: none" >
                     </div>
-                   
+
+                    <div class="col-md-12 form-group">
+                        <label for="document">Actividad</label>
+                            <div class="input-group">
+                                <select class="form-control" name="class_id" id="class_id">
+
+                                    <?php echo $assists[0]['name']; ?>
+                                @if ( !empty($assists))
+                                    <option value="0">- Seleccione - </option>
+
+                                   <?php for ($i=0; $i < count($assists); $i++) { ?>
+                                       <option value="{{$assists[$i]['class_id']}}">{{$assists[$i]['name']}}</option>
+                                   <?php } ?>
+
+                                @endif
+
+                                </select>
+                            </div>
+                    </div>                 
 
                     <div class="col-md-12 form-group">
                         <div class="col-md-6 col-md-offset-4">
