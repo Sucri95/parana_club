@@ -95,6 +95,8 @@ Route::post('saveNotificationsUsers/{id}', 'NotificationsController@saveNotifica
 
 Route::post('transactions/close_day', 'CashTransactionsController@closeDay');
 
+Route::get('activities_profitability', 'StatisticsController@activitiesProfitability');
+
 
 // SERVICIOS PARA SITE RECEPCIÓN
 

@@ -74,7 +74,7 @@
                             <span class="counter">{{$pay['tutor']}} / Clase: {{$pay['class']}}</span>
 
                             <div class="container">
-                                <span class="counter">Total: <span class="failed">-{{$pay['amount']}}$</span></span>
+                                <span class="counter">Total: {{$pay['amount']}}$</span>
                             </div>
                             
                         @endforeach

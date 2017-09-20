@@ -230,6 +230,12 @@ div.metricContainer {
 .text-center{
   text-align: center;
 }
+.text-left{
+  text-align: left;
+}
+.height-20{
+  height: 20em!important;
+}
 .success{
   color: #41e730;
 }

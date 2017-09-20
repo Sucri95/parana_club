@@ -993,9 +993,50 @@ $(function () {
 });
 
 
-/*Servicio listar tasks_by_user*/
+/*********************************************Js Susana***************************************************/
 
+function getProfitability(){
 
+	var inicial_date = $('#start_date').val();
+	var final_date = $('#end_date').val();
+	var html = '';
+
+	$.ajax({
+		type: "GET",
+		url: '/activities_profitability',
+		data:{ 
+			inicial: inicial_date, 
+			final : final_date
+		},
+
+		success: function (data) {
+			
+			for (var i = 0; i < data.length; i++) {
+
+				html += '<div class="metricContainer height-20">'+
+				'<ul>'+
+				'<h3>'+data[i].activity+'</h3>'+
+				'<li class="text-left">Valor: '+data[i].value+'</li>'+
+				'<li class="text-left">Inscritos: '+data[i].number_inscribed+'</li>'+
+				'<li class="text-left">Profesor: '+data[i].tutor+'</li>'+
+				'<li class="text-left">%Ganacia Profesor: '+data[i].tutor_prc_gain+'</li>'+
+				'<li class="text-left">SubTotal: '+data[i].sub_total+'</li>'+
+				'<li class="text-left">Costos: '+data[i].costs+'</li>'+
+				'<li class="text-left">Total: '+data[i].total+'</li>'+
+				'</ul>'+
+				'</div>';
+
+			}
+
+		},
+
+		error: function (data) {
+			alert('Error:', data);
+		}
+	}).done(function() {
+		$('#append_profits').append(html);
+	});
+}
 
 
 
